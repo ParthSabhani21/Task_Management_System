@@ -136,4 +136,16 @@ public class TaskRepository : ITaskRepository
         return task;
     }
 
+    public List<Tasks> GetTasksByDueDate()
+    {
+        var task = _context.Tasks.Where(d => d.DueDate > DateTime.Now).OrderByDescending(x => x.DueDate).ToList();
+
+        if (task.Count == 0)
+        {
+            throw new Exception("No Task Has Due Date");
+        }
+
+        return task;
+    }
+
 }

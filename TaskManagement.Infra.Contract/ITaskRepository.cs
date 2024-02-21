@@ -20,4 +20,6 @@ public interface ITaskRepository
     List<TaskResponseModel> GetTasksByPriority(Priorities priority);
 
     List<TaskResponseModel> GetTasksByAssignedUserId(long userId);
+
+    List<Tasks> GetTasksByDueDate();
 }

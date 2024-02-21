@@ -18,4 +18,6 @@ public interface ITaskService
     List<TaskResponseModel> GetTasksByPriority(Priorities priority);
 
     List<TaskResponseModel> GetTasksByAssignedUserId(long userId);
+
+    List<Tasks> GetTasksByDueDate();
 }

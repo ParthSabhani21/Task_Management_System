@@ -57,10 +57,17 @@ public class TaskController : ControllerBase
         return _taskService.GetTasksByPriority(priority);
     }
 
-    [HttpGet("getTask/byAssignedUserId/{userId}")]
+    [HttpGet("getTasks/byAssignedUserId/{userId}")]
     [Authorize(Roles = "Admin, Manager")]
     public List<TaskResponseModel> GetTasksByAssignedUserId(long userId)
     {
         return _taskService.GetTasksByAssignedUserId(userId);
+    }
+
+    [HttpGet("getTasks/byDueDate")]
+    [Authorize(Roles = "Admin, Manager")]
+    public List<Tasks> GetTasksByDueDate()
+    {
+        return _taskService.GetTasksByDueDate();
     }
 }

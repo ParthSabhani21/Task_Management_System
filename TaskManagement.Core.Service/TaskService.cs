@@ -96,4 +96,9 @@ public class TaskService : ITaskService
     {
         return _taskRepository.GetTasksByAssignedUserId(userId);
     }
+
+    public List<Tasks> GetTasksByDueDate()
+    {
+        return _taskRepository.GetTasksByDueDate();
+    }
 }
