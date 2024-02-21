@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskManagement.Core.Builder\TaskManagement.Core.Builder.csproj" />
+    <ProjectReference Include="..\TaskManagement.Core.Contract\TaskManagement.Core.Contract.csproj" />
+    <ProjectReference Include="..\TaskManagement.Core.Domain\TaskManagement.Core.Domain.csproj" />
+    <ProjectReference Include="..\TaskManagement.Infra.Contract\TaskManagement.Infra.Contract.csproj" />
+    <ProjectReference Include="..\TaskManagement.Infra.Repository\TaskManagement.Infra.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

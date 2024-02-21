@@ -1,0 +1,30 @@
+﻿using TaskManagement.Infra.Contract;
+using TaskManagement.Infra.Domain;
+using TaskManagement.Infra.Domain.Entities;
+
+namespace TaskManagement.Infra.Repository;
+
+public class UserRepository : IUserRepository
+{
+    private readonly TaskManagementContext _context;
+
+    public UserRepository(TaskManagementContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<User> AddUserAsync(User user)
+    {
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+
+        return user;
+    }
+
+    public User FindUser(string username)
+    {
+        var user = _context.Users.Where(u => u.UserName == username).FirstOrDefault();
+
+        return user;
+    }
+}
