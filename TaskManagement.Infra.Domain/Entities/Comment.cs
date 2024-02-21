@@ -16,7 +16,7 @@ public class Comment : Audit
 
     public long? TaskId { get; set; }
 
-    public Tasks Tasks {  get; set; } 
+    public Tasks? Tasks {  get; set; } 
 
     public Comment() { }
 

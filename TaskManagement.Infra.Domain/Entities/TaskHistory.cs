@@ -21,7 +21,7 @@ public class TaskHistory
 
     public DateTime DateTime { get; set; }
 
-    public Tasks Task { get; set; }
+    public Tasks? Task { get; set; }
 
     public TaskHistory() { }
 
