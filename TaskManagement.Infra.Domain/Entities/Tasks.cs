@@ -22,7 +22,7 @@ public class Tasks : Audit
 
     public DateTime DueDate { get; set; }
 
-    public User? User { get; set; }
+    public User User { get; set; }
 
     [NotMapped]
     public ICollection<Comment> comments { get; set; }
