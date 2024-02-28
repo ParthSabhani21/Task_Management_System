@@ -9,12 +9,14 @@ public class TaskManagementContext : DbContext
     {
     }
 
-    public DbSet<User> Users {  get; set; }
+    public DbSet<User> Users { get; set; }
 
     public DbSet<Tasks> Tasks { get; set; }
 
     public DbSet<Comment> Comments { get; set; }
 
     public DbSet<TaskHistory> History { get; set; }
-    
+
+    public DbSet<OneTimePassword> OTP { get; set; }
+
 }
