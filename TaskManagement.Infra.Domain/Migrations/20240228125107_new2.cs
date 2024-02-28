@@ -5,7 +5,7 @@
 namespace TaskManagement.Infra.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class newsystem6 : Migration
+    public partial class new2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,38 +14,29 @@ namespace TaskManagement.Infra.Domain.Migrations
                 name: "FK_OTP_Users_UserId",
                 table: "OTP");
 
-            migrationBuilder.AlterColumn<long>(
-                name: "UserId",
-                table: "OTP",
-                type: "bigint",
-                nullable: true,
-                oldClrType: typeof(long),
-                oldType: "bigint");
+            migrationBuilder.DropIndex(
+                name: "IX_OTP_UserId",
+                table: "OTP");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_OTP_Users_UserId",
-                table: "OTP",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "UserId");
+            migrationBuilder.DropColumn(
+                name: "UserId",
+                table: "OTP");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_OTP_Users_UserId",
-                table: "OTP");
-
-            migrationBuilder.AlterColumn<long>(
+            migrationBuilder.AddColumn<long>(
                 name: "UserId",
                 table: "OTP",
                 type: "bigint",
                 nullable: false,
-                defaultValue: 0L,
-                oldClrType: typeof(long),
-                oldType: "bigint",
-                oldNullable: true);
+                defaultValue: 0L);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OTP_UserId",
+                table: "OTP",
+                column: "UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OTP_Users_UserId",

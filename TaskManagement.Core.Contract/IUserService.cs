@@ -9,7 +9,7 @@ public interface IUserService
 
     string LoginUser(string email, string password);
 
-    Task<int> SendEmailAsync(string reciverEmail);
+    Task<int> SendEmailAsync(long id, string reciverEmail);
 
     Task CheckOTP(string email, int OTP);
 }

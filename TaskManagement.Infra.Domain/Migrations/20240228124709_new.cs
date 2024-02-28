@@ -5,7 +5,7 @@
 namespace TaskManagement.Infra.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class initial2 : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

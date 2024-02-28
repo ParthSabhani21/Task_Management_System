@@ -24,6 +24,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     Designation = table.Column<int>(type: "int", nullable: false),
                     Hash_Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salt_Password = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -31,6 +32,27 @@ namespace TaskManagement.Infra.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OTP",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OTP = table.Column<int>(type: "int", nullable: false),
+                    ValidTill = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OTP", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OTP_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,7 +92,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     CommentDesciption = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CommentType = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
-                    TaskId = table.Column<long>(type: "bigint", nullable: false),
+                    TaskId = table.Column<long>(type: "bigint", nullable: true),
                     TasksTaskId = table.Column<long>(type: "bigint", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -92,12 +114,12 @@ namespace TaskManagement.Infra.Domain.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TaskId = table.Column<long>(type: "bigint", nullable: true),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: true),
                     Priority = table.Column<int>(type: "int", nullable: true),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TaskId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,7 +128,8 @@ namespace TaskManagement.Infra.Domain.Migrations
                         name: "FK_History_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumn: "TaskId");
+                        principalColumn: "TaskId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -118,6 +141,11 @@ namespace TaskManagement.Infra.Domain.Migrations
                 name: "IX_History_TaskId",
                 table: "History",
                 column: "TaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OTP_UserId",
+                table: "OTP",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_UserId",
@@ -133,6 +161,9 @@ namespace TaskManagement.Infra.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "History");
+
+            migrationBuilder.DropTable(
+                name: "OTP");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

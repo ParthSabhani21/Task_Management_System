@@ -138,7 +138,7 @@ public class UserService : IUserService
 
     }
 
-    public async Task<int> SendEmailAsync(string reciverEmail)
+    public async Task<int> SendEmailAsync(long id, string reciverEmail)
     {
         //await _userRepository.FindEmailAsync(reciverEmail);
 
@@ -169,6 +169,7 @@ public class UserService : IUserService
 
             var addOTP = new OneTimePassword();
             addOTP.ValidTill = DateTime.Now.AddMinutes(20);
+            addOTP.userId = id;
             addOTP.OTP = generateOTP;
 
             await _userRepository.AddOTP(addOTP);
@@ -185,8 +186,10 @@ public class UserService : IUserService
         await _userRepository.FindEmailAsync(email);
         var getOTP = _userRepository.GetOTP(otp).Result;
 
-        if (generateOTP == getOTP.OTP)
-            throw new Exception("OTP Does Not Match");
+
+        if(generateOTP == getOTP.OTP) { throw new Exception("OTP Does Not Match"); }
+
+        var userIsVerified = new User().Verify;
     }
 
 }

@@ -12,8 +12,8 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20240228114600_newsystem3")]
-    partial class newsystem3
+    [Migration("20240228125700_new3")]
+    partial class new3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,7 +109,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long?>("TaskId1")
+                    b.Property<long>("TaskId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("TaskName")
@@ -118,7 +118,7 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId1");
+                    b.HasIndex("TaskId");
 
                     b.ToTable("History");
                 });
@@ -247,7 +247,9 @@ namespace TaskManagement.Infra.Domain.Migrations
                 {
                     b.HasOne("TaskManagement.Infra.Domain.Entities.Tasks", "Task")
                         .WithMany()
-                        .HasForeignKey("TaskId1");
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Task");
                 });

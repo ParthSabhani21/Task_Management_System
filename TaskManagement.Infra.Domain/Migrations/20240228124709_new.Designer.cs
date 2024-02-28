@@ -12,8 +12,8 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20240220111607_initial3")]
-    partial class initial3
+    [Migration("20240228124709_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("TaskId")
+                    b.Property<long?>("TaskId")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("TasksTaskId")
@@ -63,6 +63,30 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.HasIndex("TasksTaskId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.OneTimePassword", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("OTP")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ValidTill")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OTP");
                 });
 
             modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.TaskHistory", b =>
@@ -85,7 +109,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long?>("TaskId1")
+                    b.Property<long>("TaskId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("TaskName")
@@ -94,7 +118,7 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId1");
+                    b.HasIndex("TaskId");
 
                     b.ToTable("History");
                 });
@@ -176,6 +200,9 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -205,11 +232,24 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Navigation("Tasks");
                 });
 
+            modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.OneTimePassword", b =>
+                {
+                    b.HasOne("TaskManagement.Infra.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.TaskHistory", b =>
                 {
                     b.HasOne("TaskManagement.Infra.Domain.Entities.Tasks", "Task")
                         .WithMany()
-                        .HasForeignKey("TaskId1");
+                        .HasForeignKey("TaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Task");
                 });

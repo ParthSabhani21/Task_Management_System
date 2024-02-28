@@ -5,7 +5,7 @@
 namespace TaskManagement.Infra.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class newsystem2 : Migration
+    public partial class new4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,28 +14,41 @@ namespace TaskManagement.Infra.Domain.Migrations
                 name: "FK_OTP_Users_UserId",
                 table: "OTP");
 
-            migrationBuilder.DropIndex(
-                name: "IX_OTP_UserId",
-                table: "OTP");
-
             migrationBuilder.RenameColumn(
                 name: "UserId",
                 table: "OTP",
-                newName: "UserUserId");
+                newName: "userId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_OTP_UserId",
+                table: "OTP",
+                newName: "IX_OTP_userId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_OTP_Users_userId",
+                table: "OTP",
+                column: "userId",
+                principalTable: "Users",
+                principalColumn: "UserId",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_OTP_Users_userId",
+                table: "OTP");
+
             migrationBuilder.RenameColumn(
-                name: "UserUserId",
+                name: "userId",
                 table: "OTP",
                 newName: "UserId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_OTP_UserId",
+            migrationBuilder.RenameIndex(
+                name: "IX_OTP_userId",
                 table: "OTP",
-                column: "UserId");
+                newName: "IX_OTP_UserId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_OTP_Users_UserId",

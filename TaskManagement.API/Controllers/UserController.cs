@@ -21,16 +21,15 @@ public class UserController : ControllerBase
     public async Task<IActionResult> AddUserAsync(UserRequestModel userRequestModel)
     {
         await _userService.AddUserAsync(userRequestModel);
-        await _userService.SendEmailAsync(userRequestModel.Email);
 
         return Ok($"User {userRequestModel.UserName} Added Successfully");
     }
 
     [HttpPost("loginUser")]
-    public async Task<IActionResult> LoginUserAsync(string email, string password) 
+    public async Task<IActionResult> LoginUserAsync(long id, string email, string password) 
     { 
         var token = _userService.LoginUser(email, password);
-        await _userService.SendEmailAsync(email);
+        await _userService.SendEmailAsync(id, email);
 
         return Ok(token);
     }

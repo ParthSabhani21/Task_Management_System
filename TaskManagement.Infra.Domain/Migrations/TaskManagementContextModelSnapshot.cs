@@ -73,13 +73,15 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int>("OTP")
                         .HasColumnType("int");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("ValidTill")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("userId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("userId");
 
                     b.ToTable("OTP");
                 });
@@ -225,6 +227,17 @@ namespace TaskManagement.Infra.Domain.Migrations
                         .HasForeignKey("TasksTaskId");
 
                     b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.OneTimePassword", b =>
+                {
+                    b.HasOne("TaskManagement.Infra.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.TaskHistory", b =>

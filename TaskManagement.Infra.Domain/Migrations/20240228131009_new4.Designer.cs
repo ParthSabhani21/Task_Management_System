@@ -12,8 +12,8 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20240228115646_newsystem6")]
-    partial class newsystem6
+    [Migration("20240228131009_new4")]
+    partial class new4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,15 +76,15 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int>("OTP")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("ValidTill")
                         .HasColumnType("datetime2");
 
+                    b.Property<long>("userId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("userId");
 
                     b.ToTable("OTP");
                 });
@@ -236,7 +236,9 @@ namespace TaskManagement.Infra.Domain.Migrations
                 {
                     b.HasOne("TaskManagement.Infra.Domain.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

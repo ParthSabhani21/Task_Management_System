@@ -12,8 +12,8 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    [Migration("20240228120938_newsystem8")]
-    partial class newsystem8
+    [Migration("20240228125107_new2")]
+    partial class new2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,9 +75,6 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.Property<int>("OTP")
                         .HasColumnType("int");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("ValidTill")
                         .HasColumnType("datetime2");

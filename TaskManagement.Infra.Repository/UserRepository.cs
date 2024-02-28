@@ -55,7 +55,8 @@ public class UserRepository : IUserRepository
     public async Task<OneTimePassword> GetOTP(int otp)
     {
         var getOTP = await _context.OTP.FirstOrDefaultAsync(x => x.OTP == otp);
-
+        if(getOTP == null) { throw new Exception("OTP is Not Generated"); }
+        
         return getOTP;
     }
 
