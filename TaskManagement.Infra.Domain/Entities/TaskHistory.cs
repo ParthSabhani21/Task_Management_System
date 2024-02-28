@@ -8,9 +8,6 @@ public class TaskHistory
     [Key]
     public long Id { get; set; }
 
-    [NotMapped]
-    public long? TaskId { get; set; }
-
     public string TaskName { get; set; }
 
     public string? FilePath { get; set; }
@@ -21,13 +18,12 @@ public class TaskHistory
 
     public DateTime DateTime { get; set; }
 
-    public Tasks? Task { get; set; }
+    public Tasks Task { get; set; }
 
     public TaskHistory() { }
 
-    public TaskHistory(long taskId, string taskName, Status status, Priorities priorities, string filePath)
+    public TaskHistory(string taskName, Status status, Priorities priorities, string filePath)
     {
-        TaskId = taskId;
         TaskName = taskName;
         Status = status;
         Priority = priorities;

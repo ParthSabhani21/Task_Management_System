@@ -11,15 +11,17 @@ public class User : Audit
 
     public string Email { get; set; }
 
-    public string PhoneNumber {  get; set; }
+    public string PhoneNumber { get; set; }
 
     public Genders Gender { get; set; }
 
     public Designations Designation { get; set; }
 
-    public string Hash_Password {  get; set; }
+    public string Hash_Password { get; set; }
 
     public byte[] Salt_Password { get; set; }
+
+    public bool IsVerified { get; set; } = false;
 
     public User() { }
 
@@ -50,6 +52,11 @@ public class User : Audit
         UpdatedOn = DateTime.UtcNow;
 
         return UserId;
+    }
+
+    public void Verify()
+    {
+        IsVerified = true;
     }
 }
 

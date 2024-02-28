@@ -25,5 +25,7 @@ public static class DependencyInjection
 
         services.AddTransient<ITaskHistoryRepository, TaskHistoryRepository>();
         services.AddTransient<ITaskHistoryService, TaskHistoryService>();
+
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     }
 }

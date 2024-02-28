@@ -8,7 +8,6 @@ public static class HistoryBuilder
     {
         return new TaskHistory
         {
-            TaskId = task.TaskId,
             TaskName = task.TaskName,
             Status = task.TaskStatus,
             Priority = task.Priority,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infra.Domain;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240228114600_newsystem3")]
+    partial class newsystem3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,6 +84,8 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("OTP");
                 });
 
@@ -104,7 +109,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("TaskId")
+                    b.Property<long?>("TaskId1")
                         .HasColumnType("bigint");
 
                     b.Property<string>("TaskName")
@@ -113,7 +118,7 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("TaskId1");
 
                     b.ToTable("History");
                 });
@@ -227,13 +232,22 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Navigation("Tasks");
                 });
 
+            modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.OneTimePassword", b =>
+                {
+                    b.HasOne("TaskManagement.Infra.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.TaskHistory", b =>
                 {
                     b.HasOne("TaskManagement.Infra.Domain.Entities.Tasks", "Task")
                         .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TaskId1");
 
                     b.Navigation("Task");
                 });

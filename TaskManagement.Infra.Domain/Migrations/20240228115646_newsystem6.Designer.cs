@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infra.Domain;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240228115646_newsystem6")]
+    partial class newsystem6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,13 +76,15 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int>("OTP")
                         .HasColumnType("int");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("ValidTill")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("OTP");
                 });
@@ -225,6 +230,15 @@ namespace TaskManagement.Infra.Domain.Migrations
                         .HasForeignKey("TasksTaskId");
 
                     b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.OneTimePassword", b =>
+                {
+                    b.HasOne("TaskManagement.Infra.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaskManagement.Infra.Domain.Entities.TaskHistory", b =>

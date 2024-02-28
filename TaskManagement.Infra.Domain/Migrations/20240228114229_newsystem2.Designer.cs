@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagement.Infra.Domain;
 
@@ -11,9 +12,11 @@ using TaskManagement.Infra.Domain;
 namespace TaskManagement.Infra.Domain.Migrations
 {
     [DbContext(typeof(TaskManagementContext))]
-    partial class TaskManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240228114229_newsystem2")]
+    partial class newsystem2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +76,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int>("OTP")
                         .HasColumnType("int");
 
-                    b.Property<long>("UserId")
+                    b.Property<long>("UserUserId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("ValidTill")
@@ -104,7 +107,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("TaskId")
+                    b.Property<long?>("TaskId1")
                         .HasColumnType("bigint");
 
                     b.Property<string>("TaskName")
@@ -113,7 +116,7 @@ namespace TaskManagement.Infra.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("TaskId1");
 
                     b.ToTable("History");
                 });
@@ -231,9 +234,7 @@ namespace TaskManagement.Infra.Domain.Migrations
                 {
                     b.HasOne("TaskManagement.Infra.Domain.Entities.Tasks", "Task")
                         .WithMany()
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TaskId1");
 
                     b.Navigation("Task");
                 });

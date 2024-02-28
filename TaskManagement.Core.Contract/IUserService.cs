@@ -7,5 +7,9 @@ public interface IUserService
 {
     Task<User> AddUserAsync(UserRequestModel userRequestModel);
 
-    string LoginUser(string username, string password);
+    string LoginUser(string email, string password);
+
+    Task<int> SendEmailAsync(string reciverEmail);
+
+    Task CheckOTP(string email, int OTP);
 }
