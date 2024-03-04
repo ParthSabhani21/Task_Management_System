@@ -1,8 +1,21 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.OpenApi.Models;
-using Serilog;
 using TaskManagement.API.Configuration;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers(options =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireClaim("permissions","Admin")
+        .RequireAuthenticatedUser()
+        .Build();
+
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
 
 // Logging
 //var logger = new LoggerConfiguration()
@@ -37,11 +50,22 @@ builder.Services.AddSwaggerGen(o =>
         In = ParameterLocation.Header,
         Description = "Please enter token",
         Name = "Authorization",
-        Type = SecuritySchemeType.Http,
+        Type = SecuritySchemeType.OAuth2,
         BearerFormat = "JWT",
-        Scheme = "bearer"
-    });
+        Scheme = "bearer",
+        Flows = new OpenApiOAuthFlows
+        {
+            Implicit = new OpenApiOAuthFlow
+            {
+                //Scopes = new Dictionary<string, string>
+                //{
+                //    { "Admin", "Admin" }
+                //},
 
+                AuthorizationUrl = new Uri($"https://{builder.Configuration["Auth0:Domain"]}/authorize?audience={builder.Configuration["Auth0:Audience"]}")
+            }
+        }
+    }); ;
     o.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -56,9 +80,17 @@ builder.Services.AddSwaggerGen(o =>
             new string[]{}
         }
     });
+
+    o.OperationFilter<SecurityRequirementOperationFilter>();
 });
 
 var app = builder.Build();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
+    c.OAuthClientId(builder.Configuration["Authentication:ClientId"]);
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -72,11 +104,13 @@ if (app.Environment.IsDevelopment())
 
 //app.UseMiddleware<LoggingMiddleware>();
 
+//app.AddSwaggerConfiguration();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+//app.UseMvc();
 
 app.MapControllers();
 

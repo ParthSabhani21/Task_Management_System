@@ -37,7 +37,7 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet("getTasks")]
-    [Authorize(Roles = "Admin, Manager")]
+    [Authorize(Roles ="Admin")]
     public List<TaskResponseModel> GetTasks()
     {
         return _taskService.GetTasks();

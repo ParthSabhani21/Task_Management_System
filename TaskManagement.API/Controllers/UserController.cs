@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
+﻿using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using TaskManagement.Core.Contract;
 using TaskManagement.Core.Domain.RequestModel;
-using static System.Net.WebRequestMethods;
 
 namespace TaskManagement.API.Controllers;
 
@@ -27,9 +27,9 @@ public class UserController : ControllerBase
 
     [HttpPost("loginUser")]
     public async Task<IActionResult> LoginUserAsync(long id, string email, string password) 
-    { 
+    {
         var token = _userService.LoginUser(email, password);
-        await _userService.SendEmailAsync(id, email);
+       // await _userService.SendEmailAsync(id, email);
 
         return Ok(token);
     }
